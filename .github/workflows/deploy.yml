@@ -3,6 +3,7 @@ name: Deploy Pages
 on:
   push:
     branches: ["master", "main"]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -15,6 +16,8 @@ jobs:
           python-version: '3.x'
       - name: Install dependencies
         run: pip install Pillow
+      - name: Download Original Image from Release
+        run: wget -q -O Kunyu_Wanguo_Quantu.jpg "https://github.com/ychenzgithub/MapAppreciation/releases/download/v1.0/Kunyu_Wanguo_Quantu.jpg"
       - name: Generate Tiles
         run: python3 tile_generator.py
       - name: Upload artifact
