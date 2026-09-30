@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>古地图赏析 | Historic Map Appreciation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        sepia: {
+                            50: '#f8f4ec',
+                            100: '#f0e6d6',
+                            200: '#e1cdb0',
+                            300: '#d0af83',
+                            400: '#c1925b',
+                            500: '#b47b41',
+                            600: '#a56436',
+                            700: '#894e2f',
+                            800: '#70412a',
+                            900: '#5a3624',
+                        }
+                    },
+                    fontFamily: {
+                        'serif': ['"Noto Serif SC"', '"Songti SC"', 'SimSun', 'serif'],
+                        'sans': ['system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Leaflet for tiled map viewing -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+</head>
+<body class="bg-sepia-50 text-sepia-900 font-serif overflow-x-hidden">
+
+    <!-- Header -->
+    <header class="bg-sepia-800 text-sepia-50 py-8 shadow-lg">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-2 tracking-widest">古 地 图 赏 析</h1>
+            <p class="text-sepia-200 text-lg md:text-xl font-light">探索历史的印记，重温古代世界的样貌</p>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main id="app-container" class="container mx-auto px-4 py-8">
+        <!-- Map List View -->
+        <section id="map-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Dynamically populated by app.js -->
+        </section>
+
+        <!-- Map Detail View (Hidden by default) -->
+        <section id="map-detail" class="hidden animate-fade-in">
+            <button id="back-btn" class="mb-6 inline-flex items-center text-sepia-700 hover:text-sepia-900 font-bold transition">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                返回列表
+            </button>
+            
+            <div class="bg-white rounded-lg shadow-xl overflow-hidden">
+                <!-- Main Image Viewer -->
+                <div class="relative bg-stone-900 w-full h-[60vh]" id="viewer-container">
+                    <!-- Leaflet map will be injected here -->
+                </div>
+
+                <div class="p-8 md:p-12">
+                    <h2 id="detail-title" class="text-3xl md:text-4xl font-bold text-center mb-2"></h2>
+                    <p id="detail-subtitle" class="text-center text-sepia-600 mb-10 italic"></p>
+                    
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+                        <!-- Left Column: Background & Stories -->
+                        <div class="lg:col-span-2 space-y-8">
+                            <section>
+                                <h3 class="text-2xl font-bold border-b-2 border-sepia-200 pb-2 mb-4">背景介绍</h3>
+                                <p id="detail-background" class="text-lg leading-relaxed text-justify"></p>
+                            </section>
+                            
+                            <section>
+                                <h3 class="text-2xl font-bold border-b-2 border-sepia-200 pb-2 mb-4">历史故事</h3>
+                                <div id="detail-stories" class="space-y-6">
+                                    <!-- Populated by JS -->
+                                </div>
+                            </section>
+                        </div>
+                        
+                        <!-- Right Column: Local Appreciation -->
+                        <div class="lg:col-span-1">
+                            <h3 class="text-2xl font-bold border-b-2 border-sepia-200 pb-2 mb-4">局部赏析</h3>
+                            <div id="detail-local-areas" class="space-y-6">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-sepia-900 text-sepia-200 text-center py-6 mt-12">
+        <p>&copy; <span id="current-year"></span> 古地图赏析 - 探索历史的每一片疆域</p>
+    </footer>
+
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+    <script>document.getElementById('current-year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
