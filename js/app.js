@@ -82,6 +82,12 @@ document.addEventListener('DOMContentLoaded', () => {
         leafletMap.fitBounds(bounds);
         panzoomInstance = leafletMap; // Save ref to destroy later
 
+        // Ensure Leaflet calculates dimensions properly after container becomes visible
+        setTimeout(() => {
+            leafletMap.invalidateSize();
+            leafletMap.fitBounds(bounds);
+        }, 150);
+
         // Populate Stories
         const storiesContainer = document.getElementById('detail-stories');
         storiesContainer.innerHTML = '';
