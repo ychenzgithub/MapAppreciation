@@ -1,27 +1,29 @@
 /* styles.css */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
+    from { opacity: 0; transform: translateY(12px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
 .animate-fade-in {
-    animation: fadeIn 0.5s ease-out forwards;
+    animation: fadeIn 0.4s ease-out forwards;
 }
 
-/* Local view styles */
+/* Local view preview boxes */
 .local-view {
     width: 100%;
-    height: 200px;
+    height: 180px;
     background-repeat: no-repeat;
     border-radius: 0.5rem;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     border: 2px solid #e1cdb0;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
     cursor: pointer;
 }
 
 .local-view:hover {
     transform: scale(1.02);
+    border-color: #b47b41;
+    box-shadow: 0 10px 15px -3px rgba(180, 123, 65, 0.2);
 }
 
 .card-zoom-image {
@@ -30,4 +32,79 @@
 
 .card-container:hover .card-zoom-image {
     transform: scale(1.05);
+}
+
+/* Ancient citation / quote styling */
+.quote-ancient {
+    position: relative;
+    background: #fbf7ee;
+    border-left: 4px solid #b47b41;
+    padding: 1rem 1.25rem;
+    font-style: normal;
+    color: #432818;
+    line-height: 1.8;
+}
+
+.quote-ancient::before {
+    content: "“";
+    font-size: 2.5rem;
+    color: #d0af83;
+    position: absolute;
+    top: -0.6rem;
+    left: 0.5rem;
+    opacity: 0.5;
+    font-family: Georgia, serif;
+}
+
+/* Seal stamp badge */
+.seal-badge {
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border: 1px solid #a56436;
+    color: #894e2f;
+    background-color: #f7eee1;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 2px;
+    letter-spacing: 0.05em;
+}
+
+/* Leaflet Custom Popups */
+.leaflet-popup-content-wrapper {
+    background: #fbf7ee !important;
+    color: #432818 !important;
+    border: 1px solid #d0af83 !important;
+    border-radius: 6px !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2) !important;
+    font-family: inherit !important;
+}
+
+.leaflet-popup-tip {
+    background: #fbf7ee !important;
+}
+
+/* Etymology card styling */
+.etym-card {
+    transition: all 0.25s ease;
+    border: 1px solid #e1cdb0;
+    background: #ffffff;
+}
+
+.etym-card:hover {
+    border-color: #b47b41;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px -2px rgba(180, 123, 65, 0.15);
+}
+
+/* Custom Scrollbar for pills bar */
+.custom-scrollbar::-webkit-scrollbar {
+    height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #e1cdb0;
+    border-radius: 3px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #a56436;
+    border-radius: 3px;
 }

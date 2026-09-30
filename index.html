@@ -11,21 +11,21 @@
                 extend: {
                     colors: {
                         sepia: {
-                            50: '#f8f4ec',
-                            100: '#f0e6d6',
-                            200: '#e1cdb0',
-                            300: '#d0af83',
-                            400: '#c1925b',
+                            50: '#fbf7ee',
+                            100: '#f4ebd8',
+                            200: '#e5d3b6',
+                            300: '#d4b78c',
+                            400: '#c49a62',
                             500: '#b47b41',
-                            600: '#a56436',
-                            700: '#894e2f',
-                            800: '#70412a',
-                            900: '#5a3624',
+                            600: '#9d6332',
+                            700: '#814d28',
+                            800: '#673c21',
+                            900: '#522f1b',
                         }
                     },
                     fontFamily: {
-                        'serif': ['"Noto Serif SC"', '"Songti SC"', 'SimSun', 'serif'],
-                        'sans': ['system-ui', 'sans-serif'],
+                        'serif': ['"Noto Serif SC"', '"Songti SC"', 'STSong', 'SimSun', 'serif'],
+                        'sans': ['system-ui', '-apple-system', 'sans-serif'],
                     }
                 }
             }
@@ -36,71 +36,139 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </head>
-<body class="bg-sepia-50 text-sepia-900 font-serif overflow-x-hidden">
+<body class="bg-sepia-50 text-sepia-900 font-serif overflow-x-hidden antialiased selection:bg-sepia-200">
 
     <!-- Header -->
-    <header class="bg-sepia-800 text-sepia-50 py-8 shadow-lg">
+    <header class="bg-gradient-to-b from-sepia-900 to-sepia-800 text-sepia-50 py-10 shadow-xl border-b-4 border-sepia-500">
         <div class="container mx-auto px-4 text-center">
-            <h1 class="text-4xl md:text-5xl font-bold mb-2 tracking-widest">古 地 图 赏 析</h1>
-            <p class="text-sepia-200 text-lg md:text-xl font-light">探索历史的印记，重温古代世界的样貌</p>
+            <div class="inline-block border-y-2 border-sepia-400 py-1 px-6 mb-3">
+                <span class="text-xs uppercase tracking-widest text-sepia-300 font-sans">East-West Cartographic Heritage</span>
+            </div>
+            <h1 class="text-4xl md:text-6xl font-bold mb-3 tracking-widest">古 地 图 赏 析</h1>
+            <p class="text-sepia-200 text-base md:text-xl font-light max-w-2xl mx-auto leading-relaxed">探索历史的印记 · 重温古代世界的样貌 · 考据东西文明的交汇</p>
         </div>
     </header>
 
     <!-- Main Content Container -->
-    <main id="app-container" class="container mx-auto px-4 py-8">
+    <main id="app-container" class="container mx-auto px-4 py-8 max-w-7xl">
         <!-- Map List View -->
         <section id="map-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <!-- Dynamically populated by app.js -->
         </section>
 
         <!-- Map Detail View (Hidden by default) -->
-        <section id="map-detail" class="hidden animate-fade-in">
-            <button id="back-btn" class="mb-6 inline-flex items-center text-sepia-700 hover:text-sepia-900 font-bold transition">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                返回列表
-            </button>
-            
-            <div class="bg-white rounded-lg shadow-xl overflow-hidden">
+        <section id="map-detail" class="hidden animate-fade-in space-y-12">
+            <!-- Breadcrumb & Back -->
+            <div class="flex items-center justify-between border-b border-sepia-200 pb-4">
+                <button id="back-btn" class="inline-flex items-center text-sepia-800 hover:text-sepia-600 font-bold transition text-lg group">
+                    <svg class="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    返回地图全录
+                </button>
+                <span class="seal-badge">深度解说版 · 1602刻本</span>
+            </div>
+
+            <!-- Viewer Card -->
+            <div class="bg-white rounded-xl shadow-2xl overflow-hidden border border-sepia-200">
+                <!-- Quick Navigation Pills Bar -->
+                <div class="bg-sepia-100 px-4 py-3 border-b border-sepia-200 flex items-center justify-between flex-wrap gap-2">
+                    <div class="flex items-center space-x-2 text-sm text-sepia-800 font-sans font-medium">
+                        <span class="seal-badge mr-1">快速导览</span>
+                        <span class="text-xs text-sepia-600 hidden sm:inline">点击直飞探索区域：</span>
+                    </div>
+                    <div id="quick-jump-pills" class="flex items-center gap-2 overflow-x-auto custom-scrollbar py-1 text-xs">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
                 <!-- Main Image Viewer -->
-                <div class="relative bg-stone-900 w-full h-[60vh]" id="viewer-container">
+                <div class="relative bg-stone-900 w-full h-[62vh] md:h-[72vh]" id="viewer-container">
                     <!-- Leaflet map will be injected here -->
                 </div>
 
-                <div class="p-8 md:p-12">
-                    <h2 id="detail-title" class="text-3xl md:text-4xl font-bold text-center mb-2"></h2>
-                    <p id="detail-subtitle" class="text-center text-sepia-600 mb-10 italic"></p>
-                    
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-                        <!-- Left Column: Background & Stories -->
-                        <div class="lg:col-span-2 space-y-8">
-                            <section>
-                                <h3 class="text-2xl font-bold border-b-2 border-sepia-200 pb-2 mb-4">背景介绍</h3>
-                                <p id="detail-background" class="text-lg leading-relaxed text-justify"></p>
-                            </section>
-                            
-                            <section>
-                                <h3 class="text-2xl font-bold border-b-2 border-sepia-200 pb-2 mb-4">历史故事</h3>
-                                <div id="detail-stories" class="space-y-6">
-                                    <!-- Populated by JS -->
-                                </div>
-                            </section>
-                        </div>
-                        
-                        <!-- Right Column: Local Appreciation -->
-                        <div class="lg:col-span-1">
-                            <h3 class="text-2xl font-bold border-b-2 border-sepia-200 pb-2 mb-4">局部赏析</h3>
-                            <div id="detail-local-areas" class="space-y-6">
-                                <!-- Populated by JS -->
-                            </div>
-                        </div>
-                    </div>
+                <div class="bg-sepia-800 text-sepia-200 text-xs px-4 py-2 flex items-center justify-between">
+                    <span>💡 提示：支持鼠标滚轮平滑缩放、左键自由拖拽。点击页面中任意<b>【在图中定位】</b>按钮，即可平滑飞行至该位置。</span>
+                    <button id="reset-view-btn" class="underline hover:text-white transition">重置全景视口</button>
                 </div>
+            </div>
+
+            <!-- Detailed Guide Section Container -->
+            <div class="space-y-12">
+                <!-- Section 1: Overview & Historical Coordinates -->
+                <section class="bg-white rounded-xl p-6 md:p-10 shadow-lg border border-sepia-200">
+                    <div class="text-center max-w-3xl mx-auto mb-8">
+                        <span class="seal-badge mb-2">地图概述与时代坐标</span>
+                        <h2 id="detail-title" class="text-3xl md:text-4xl font-bold mb-2 text-sepia-900"></h2>
+                        <p id="detail-subtitle" class="text-sepia-600 text-base md:text-lg italic"></p>
+                    </div>
+
+                    <div id="overview-grid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Populated by JS -->
+                    </div>
+                </section>
+
+                <!-- Section 2: Core Focal Areas (图文细读) -->
+                <section>
+                    <div class="flex items-center justify-between border-b-2 border-sepia-300 pb-3 mb-8">
+                        <div>
+                            <span class="seal-badge mb-1">图文细读</span>
+                            <h3 class="text-2xl md:text-3xl font-bold text-sepia-900">核心区域深度赏析</h3>
+                        </div>
+                        <p class="text-sepia-600 text-sm hidden md:block">点击卡片右上角或按钮，可联动主地图飞跃至对应原图细部</p>
+                    </div>
+
+                    <div id="focal-areas-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Populated by JS -->
+                    </div>
+                </section>
+
+                <!-- Section 3: Astronomical & Cartographic Instruments -->
+                <section class="bg-sepia-100 rounded-xl p-6 md:p-10 border border-sepia-200 shadow-md">
+                    <div class="text-center max-w-2xl mx-auto mb-8">
+                        <span class="seal-badge mb-2">边角彩蛋 · 天象测绘</span>
+                        <h3 class="text-2xl md:text-3xl font-bold text-sepia-900 mb-2">科学附图与测绘工具</h3>
+                        <p class="text-sepia-700 text-sm leading-relaxed">利玛窦在整幅地图四角及边缘空白处，精细绘制了托勒密地心说天象、航海求纬术与两极极射投影图，构筑起一部微缩的明末中西天文学与几何大地测量百科。</p>
+                    </div>
+
+                    <div id="scientific-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <!-- Populated by JS -->
+                    </div>
+                </section>
+
+                <!-- Section 4: Sea Monsters & Mythical Beasts -->
+                <section class="bg-white rounded-xl p-6 md:p-10 border border-sepia-200 shadow-md">
+                    <div class="border-b border-sepia-200 pb-3 mb-6">
+                        <span class="seal-badge mb-1">博物图谱</span>
+                        <h3 class="text-2xl font-bold text-sepia-900">神秘海怪与陆地珍禽异兽</h3>
+                    </div>
+                    <div id="beasts-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Populated by JS -->
+                    </div>
+                </section>
+
+                <!-- Section 5: Etymology & Nomenclature -->
+                <section class="bg-white rounded-xl p-6 md:p-10 border border-sepia-200 shadow-lg">
+                    <div class="border-b border-sepia-200 pb-4 mb-6 flex items-center justify-between flex-wrap gap-2">
+                        <div>
+                            <span class="seal-badge mb-1">词源解密</span>
+                            <h3 class="text-2xl md:text-3xl font-bold text-sepia-900">地名密码与音译考据指南</h3>
+                        </div>
+                        <span class="text-xs text-sepia-600 bg-sepia-100 px-3 py-1 rounded">利玛窦首创大量沿用至今的现代地理词汇</span>
+                    </div>
+
+                    <div id="etymology-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <!-- Populated by JS -->
+                    </div>
+                </section>
             </div>
         </section>
     </main>
 
-    <footer class="bg-sepia-900 text-sepia-200 text-center py-6 mt-12">
-        <p>&copy; <span id="current-year"></span> 古地图赏析 - 探索历史的每一片疆域</p>
+    <!-- Footer -->
+    <footer class="bg-sepia-900 text-sepia-300 py-8 border-t-2 border-sepia-600 mt-16 text-center text-sm font-sans">
+        <div class="container mx-auto px-4 space-y-2">
+            <p class="font-serif text-base text-sepia-100">古地图赏析 · 探索历史的每一片疆域</p>
+            <p>&copy; <span id="current-year"></span> 基于 Leaflet 瓦片金字塔深度图层构建 · 开源托管于 GitHub Pages</p>
+        </div>
     </footer>
 
     <script src="js/data.js"></script>
