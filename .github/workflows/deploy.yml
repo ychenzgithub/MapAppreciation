@@ -3,22 +3,25 @@ name: Deploy Pages
 on:
   push:
     branches: ["master", "main"]
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
       - name: Install dependencies
         run: pip install Pillow
+      - name: Download Original Image from Release
+        run: wget -q -O Kunyu_Wanguo_Quantu.jpg "https://github.com/ychenzgithub/MapAppreciation/releases/download/v1.0/Kunyu_Wanguo_Quantu.jpg"
       - name: Generate Tiles
         run: python3 tile_generator.py
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
           path: '.'
   
@@ -34,4 +37,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
