@@ -149,14 +149,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const pillsContainer = document.getElementById('quick-jump-pills');
         pillsContainer.innerHTML = '';
         const quickNavTargets = [
-            { label: "🇯🇵 日本战国茶道", x: 60.5, y: 36.5, z: 5, desc: "权常在强臣 · 只重金银及古窑器" },
-            { label: "🇧🇷 巴西与苏木", x: 91.5, y: 64.0, z: 5, desc: "“此言苏木” · 早期词源学实录" },
-            { label: "🪶 北美部族", x: 86.5, y: 32.5, z: 5, desc: "甘那陀村落与东部林地部族" },
-            { label: "🌋 太平洋别山", x: 77.0, y: 44.0, z: 5, desc: "西语 Volcán 对音借字 · 赤色火山岛" },
-            { label: "🏯 大明京省一统", x: 52.0, y: 39.5, z: 4, desc: "大明居世界中心 · 两京十三布政使司" },
+            { label: "🇯🇵 日本战国茶道", x: 48.0, y: 34.0, z: 5, desc: "权常在强臣 · 只重金银及古窑器" },
+            { label: "🇧🇷 巴西与苏木", x: 90.2, y: 56.3, z: 5, desc: "“此言苏木” · 早期词源学实录" },
+            { label: "🪶 北美部族", x: 75.0, y: 29.5, z: 5, desc: "甘那陀村落与东部林地部族" },
+            { label: "🌋 太平洋别山", x: 65.0, y: 38.0, z: 5, desc: "西语 Volcán 对音借字 · 赤色火山岛" },
+            { label: "🏯 大明京省一统", x: 42.0, y: 36.0, z: 4, desc: "大明居世界中心 · 两京十三布政使司" },
             { label: "🧭 极南假说", x: 50.0, y: 88.0, z: 4, desc: "墨瓦蜡泥加 · 南北半球平衡假说" },
-            { label: "🌌 九重天图", x: 6.0, y: 15.0, z: 5, desc: "托勒密地心说九重宇宙模型" },
-            { label: "📐 看北极法", x: 94.0, y: 16.0, z: 5, desc: "象限仪与航海北极出地求纬术" },
+            { label: "🌌 九重天图(右上)", x: 88.5, y: 12.0, z: 5, desc: "右上角 · 托勒密地心说九重宇宙模型" },
+            { label: "🌐 北极半球与日蚀(左上)", x: 12.0, y: 14.0, z: 5, desc: "左上角 · 赤道北半地球之图与日月蚀" },
+            { label: "🌐 南极半球与节气(左下)", x: 12.0, y: 84.0, z: 5, desc: "左下角 · 赤道南半地球之图与黄赤交角" },
+            { label: "🔭 天地仪(右下)", x: 86.0, y: 84.0, z: 5, desc: "右下角 · 浑天仪演象与利玛窦自撰跋文" }
         ];
 
         quickNavTargets.forEach(target => {
