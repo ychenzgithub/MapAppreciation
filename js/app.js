@@ -333,6 +333,93 @@ document.addEventListener('DOMContentLoaded', () => {
         currentMarker = null;
     });
 
+    // Fullscreen Controller
+    const viewerCard = document.getElementById('viewer-card');
+    const floatingFsBtn = document.getElementById('floating-fullscreen-btn');
+    const footerFsBtn = document.getElementById('footer-fullscreen-btn');
+    const fsIconEnter = document.getElementById('fullscreen-icon-enter');
+    const fsIconExit = document.getElementById('fullscreen-icon-exit');
+    const fsBtnText = document.getElementById('fullscreen-btn-text');
+
+    function isFullscreenActive() {
+        return !!(
+            document.fullscreenElement ||
+            document.webkitFullscreenElement ||
+            viewerCard?.classList.contains('fullscreen-fallback')
+        );
+    }
+
+    function updateFullscreenUI() {
+        const active = isFullscreenActive();
+        if (active) {
+            fsIconEnter?.classList.add('hidden');
+            fsIconExit?.classList.remove('hidden');
+            if (fsBtnText) fsBtnText.textContent = '退出全屏 (ESC)';
+            if (footerFsBtn) footerFsBtn.textContent = '✕ 退出全屏';
+        } else {
+            fsIconEnter?.classList.remove('hidden');
+            fsIconExit?.classList.add('hidden');
+            if (fsBtnText) fsBtnText.textContent = '全屏沉浸浏览';
+            if (footerFsBtn) footerFsBtn.textContent = '⛶ 全屏显示';
+            viewerCard?.classList.remove('fullscreen-fallback');
+        }
+
+        setTimeout(() => {
+            if (leafletMapInstance) {
+                leafletMapInstance.invalidateSize();
+            }
+        }, 150);
+    }
+
+    function toggleFullscreen() {
+        if (!viewerCard) return;
+
+        if (isFullscreenActive()) {
+            if (document.exitFullscreen) {
+                document.exitFullscreen().catch(() => {});
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            } else {
+                viewerCard.classList.remove('fullscreen-fallback');
+                updateFullscreenUI();
+            }
+        } else {
+            if (viewerCard.requestFullscreen) {
+                viewerCard.requestFullscreen().catch(() => {
+                    // Fallback to CSS fullscreen if browser blocks requestFullscreen
+                    viewerCard.classList.add('fullscreen-fallback');
+                    updateFullscreenUI();
+                });
+            } else if (viewerCard.webkitRequestFullscreen) {
+                viewerCard.webkitRequestFullscreen();
+            } else {
+                viewerCard.classList.add('fullscreen-fallback');
+                updateFullscreenUI();
+            }
+        }
+    }
+
+    if (floatingFsBtn) floatingFsBtn.addEventListener('click', toggleFullscreen);
+    if (footerFsBtn) footerFsBtn.addEventListener('click', toggleFullscreen);
+
+    document.addEventListener('fullscreenchange', updateFullscreenUI);
+    document.addEventListener('webkitfullscreenchange', updateFullscreenUI);
+
+    // Keyboard shortcut: Press 'F' to toggle fullscreen, 'ESC' to exit fallback
+    document.addEventListener('keydown', (e) => {
+        if (mapDetailSection.classList.contains('hidden')) return;
+        const targetTag = e.target.tagName.toLowerCase();
+        if (targetTag === 'input' || targetTag === 'textarea') return;
+
+        if (e.key === 'f' || e.key === 'F') {
+            e.preventDefault();
+            toggleFullscreen();
+        } else if (e.key === 'Escape' && viewerCard?.classList.contains('fullscreen-fallback')) {
+            viewerCard.classList.remove('fullscreen-fallback');
+            updateFullscreenUI();
+        }
+    });
+
     // Initial render
     renderMapList();
 });

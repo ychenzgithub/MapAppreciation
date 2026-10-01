@@ -68,7 +68,7 @@
             </div>
 
             <!-- Viewer Card -->
-            <div class="bg-white rounded-xl shadow-2xl overflow-hidden border border-sepia-200">
+            <div id="viewer-card" class="bg-white rounded-xl shadow-2xl overflow-hidden border border-sepia-200 relative transition-all">
                 <!-- Quick Navigation Pills Bar -->
                 <div class="bg-sepia-100 px-4 py-3 border-b border-sepia-200 flex items-center justify-between flex-wrap gap-2">
                     <div class="flex items-center space-x-2 text-sm text-sepia-800 font-sans font-medium">
@@ -83,11 +83,23 @@
                 <!-- Main Image Viewer -->
                 <div class="relative bg-stone-900 w-full h-[62vh] md:h-[72vh]" id="viewer-container">
                     <!-- Leaflet map will be injected here -->
+                    
+                    <!-- Floating Fullscreen & Action Control on top-right -->
+                    <div class="absolute top-3 right-3 z-[1000] flex items-center space-x-2">
+                        <button id="floating-fullscreen-btn" class="bg-sepia-900/85 hover:bg-sepia-900 text-sepia-100 px-3 py-1.5 rounded-lg border border-sepia-400/60 text-xs font-sans flex items-center shadow-lg backdrop-blur-xs transition group cursor-pointer" title="切换全屏模式 (快捷键: F)">
+                            <svg id="fullscreen-icon-enter" class="w-4 h-4 mr-1 text-sepia-300 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
+                            <svg id="fullscreen-icon-exit" class="w-4 h-4 mr-1 text-sepia-300 group-hover:text-white hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            <span id="fullscreen-btn-text">全屏沉浸浏览</span>
+                        </button>
+                    </div>
                 </div>
 
-                <div class="bg-sepia-800 text-sepia-200 text-xs px-4 py-2 flex items-center justify-between">
-                    <span>💡 提示：支持鼠标滚轮平滑缩放、左键自由拖拽。点击页面中任意<b>【在图中定位】</b>按钮，即可平滑飞行至该位置。</span>
-                    <button id="reset-view-btn" class="underline hover:text-white transition">重置全景视口</button>
+                <div class="bg-sepia-800 text-sepia-200 text-xs px-4 py-2.5 flex items-center justify-between flex-wrap gap-2">
+                    <span>💡 提示：支持鼠标滚轮平滑缩放、自由拖拽。按键盘 <b>F</b> 键可快速切换全屏沉浸模式。</span>
+                    <div class="flex items-center space-x-4">
+                        <button id="reset-view-btn" class="underline hover:text-white transition cursor-pointer">重置全景视口</button>
+                        <button id="footer-fullscreen-btn" class="underline hover:text-white transition font-medium cursor-pointer">⛶ 全屏显示</button>
+                    </div>
                 </div>
             </div>
 
