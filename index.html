@@ -64,7 +64,7 @@
                     <svg class="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                     返回地图全录
                 </button>
-                <span class="seal-badge">深度解说版 · 1602刻本</span>
+                <span id="detail-badge" class="seal-badge">深度解说版 · 1602刻本</span>
             </div>
 
             <!-- Viewer Card -->
@@ -136,9 +136,9 @@
                 <!-- Section 3: Astronomical & Cartographic Instruments -->
                 <section class="bg-sepia-100 rounded-xl p-6 md:p-10 border border-sepia-200 shadow-md">
                     <div class="text-center max-w-2xl mx-auto mb-8">
-                        <span class="seal-badge mb-2">边角彩蛋 · 天象测绘</span>
-                        <h3 class="text-2xl md:text-3xl font-bold text-sepia-900 mb-2">科学附图与测绘工具</h3>
-                        <p class="text-sepia-700 text-sm leading-relaxed">利玛窦在整幅地图四角及边缘空白处，精细绘制了托勒密地心说天象、航海求纬术与两极极射投影图，构筑起一部微缩的明末中西天文学与几何大地测量百科。</p>
+                        <span id="scientific-badge" class="seal-badge mb-2">边角彩蛋 · 天象测绘</span>
+                        <h3 id="scientific-title" class="text-2xl md:text-3xl font-bold text-sepia-900 mb-2">科学附图与测绘工具</h3>
+                        <p id="scientific-desc" class="text-sepia-700 text-sm leading-relaxed">利玛窦在整幅地图四角及边缘空白处，精细绘制了托勒密地心说天象、航海求纬术与两极极射投影图，构筑起一部微缩的明末中西天文学与几何大地测量百科。</p>
                     </div>
 
                     <div id="scientific-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -149,8 +149,8 @@
                 <!-- Section 4: Sea Monsters & Mythical Beasts -->
                 <section class="bg-white rounded-xl p-6 md:p-10 border border-sepia-200 shadow-md">
                     <div class="border-b border-sepia-200 pb-3 mb-6">
-                        <span class="seal-badge mb-1">博物图谱</span>
-                        <h3 class="text-2xl font-bold text-sepia-900">神秘海怪与陆地珍禽异兽</h3>
+                        <span id="beasts-badge" class="seal-badge mb-1">博物图谱</span>
+                        <h3 id="beasts-title" class="text-2xl font-bold text-sepia-900">神秘海怪与陆地珍禽异兽</h3>
                     </div>
                     <div id="beasts-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <!-- Populated by JS -->
@@ -161,10 +161,10 @@
                 <section class="bg-white rounded-xl p-6 md:p-10 border border-sepia-200 shadow-lg">
                     <div class="border-b border-sepia-200 pb-4 mb-6 flex items-center justify-between flex-wrap gap-2">
                         <div>
-                            <span class="seal-badge mb-1">词源解密</span>
-                            <h3 class="text-2xl md:text-3xl font-bold text-sepia-900">地名密码与音译考据指南</h3>
+                            <span id="etymology-badge" class="seal-badge mb-1">词源解密</span>
+                            <h3 id="etymology-title" class="text-2xl md:text-3xl font-bold text-sepia-900">地名密码与音译考据指南</h3>
                         </div>
-                        <span class="text-xs text-sepia-600 bg-sepia-100 px-3 py-1 rounded">利玛窦首创大量沿用至今的现代地理词汇</span>
+                        <span id="etymology-subtitle" class="text-xs text-sepia-600 bg-sepia-100 px-3 py-1 rounded">利玛窦首创大量沿用至今的现代地理词汇</span>
                     </div>
 
                     <div id="etymology-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

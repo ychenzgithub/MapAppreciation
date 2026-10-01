@@ -52,4 +52,7 @@ def generate_tiles(image_path, output_dir, tile_size=256):
     return W, H, max_z
 
 if __name__ == "__main__":
-    generate_tiles("Kunyu_Wanguo_Quantu.jpg", "tiles/kunyu")
+    if os.path.exists("Kunyu_Wanguo_Quantu.jpg"):
+        generate_tiles("Kunyu_Wanguo_Quantu.jpg", "tiles/kunyu")
+    if os.path.exists("Martini_China_1655.jpg"):
+        generate_tiles("Martini_China_1655.jpg", "tiles/martini")

@@ -1,2 +1,5 @@
 tiles/
 Kunyu_Wanguo_Quantu.jpg
+__pycache__/
+*.pyc
+.DS_Store

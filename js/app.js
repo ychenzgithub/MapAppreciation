@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <p class="text-stone-600 text-sm leading-relaxed mb-4">${map.shortDescription}</p>
                     </div>
                     <div class="pt-3 border-t border-sepia-100 flex items-center justify-between text-xs text-sepia-500 font-sans">
-                        <span>彭纳投影 · 六条屏刻本</span>
+                        <span>${map.cardTag || '高清历史地图'}</span>
                         <span class="text-sepia-700 font-semibold group-hover:underline">点击开启探索</span>
                     </div>
                 </div>
@@ -89,6 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Header info
         document.getElementById('detail-title').textContent = map.title;
         document.getElementById('detail-subtitle').textContent = `${map.subtitle} · ${map.author}`;
+        const badgeEl = document.getElementById('detail-badge');
+        if (badgeEl) badgeEl.textContent = map.badge || `${map.year} 典藏版`;
 
         // Initialize Leaflet Map
         if (leafletMapInstance) {
@@ -148,22 +150,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // 1. Populate Quick Jump Pills
         const pillsContainer = document.getElementById('quick-jump-pills');
         pillsContainer.innerHTML = '';
-        const quickNavTargets = [
-            { label: "🇯🇵 日本战国茶道", x: 48.0, y: 34.0, z: 5, desc: "权常在强臣 · 只重金银及古窑器" },
-            { label: "🇧🇷 巴西与苏木", x: 90.2, y: 56.3, z: 5, desc: "“此言苏木” · 早期词源学实录" },
-            { label: "🪶 北美部族", x: 75.0, y: 29.5, z: 5, desc: "甘那陀村落与东部林地部族" },
-            { label: "🌋 太平洋别山", x: 65.0, y: 38.0, z: 5, desc: "西语 Volcán 对音借字 · 赤色火山岛" },
-            { label: "🏯 大明京省一统", x: 42.0, y: 36.0, z: 4, desc: "大明居世界中心 · 两京十三布政使司" },
-            { label: "🧭 极南假说", x: 50.0, y: 88.0, z: 4, desc: "墨瓦蜡泥加 · 南北半球平衡假说" },
-            { label: "🌌 九重天图(右上)", x: 88.5, y: 12.0, z: 5, desc: "右上角 · 托勒密地心说九重宇宙模型" },
-            { label: "🌐 北极半球与日蚀(左上)", x: 12.0, y: 14.0, z: 5, desc: "左上角 · 赤道北半地球之图与日月蚀" },
-            { label: "🌐 南极半球与节气(左下)", x: 12.0, y: 84.0, z: 5, desc: "左下角 · 赤道南半地球之图与黄赤交角" },
-            { label: "🔭 天地仪(右下)", x: 86.0, y: 84.0, z: 5, desc: "右下角 · 浑天仪演象与利玛窦自撰跋文" }
-        ];
+        const quickNavTargets = map.quickNavTargets || [];
 
         quickNavTargets.forEach(target => {
             const btn = document.createElement('button');
-            btn.className = 'whitespace-nowrap px-3 py-1 rounded bg-white hover:bg-sepia-200 text-sepia-900 border border-sepia-300 font-sans text-xs transition shadow-2xs hover:shadow';
+            btn.className = 'whitespace-nowrap px-3 py-1 rounded bg-white hover:bg-sepia-200 text-sepia-900 border border-sepia-300 font-sans text-xs transition shadow-2xs hover:shadow cursor-pointer';
             btn.textContent = target.label;
             btn.addEventListener('click', () => {
                 flyToCoords(target.x, target.y, target.z, target.label, target.desc, w0, h0);
@@ -220,7 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             <h4 class="text-xl font-bold text-sepia-900">${area.name}</h4>
                             <p class="text-xs text-sepia-600 italic mt-0.5">${area.subtitle}</p>
                         </div>
-                        <button class="fly-btn shrink-0 ml-3 inline-flex items-center text-xs bg-sepia-700 hover:bg-sepia-800 text-white px-3 py-1.5 rounded-full shadow transition" title="在全景地图中直接定位">
+                        <button class="fly-btn shrink-0 ml-3 inline-flex items-center text-xs bg-sepia-700 hover:bg-sepia-800 text-white px-3 py-1.5 rounded-full shadow transition cursor-pointer" title="在全景地图中直接定位">
                             <span>在图中定位</span>
                             <svg class="w-3.5 h-3.5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                         </button>
@@ -241,7 +232,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 <!-- Preview Thumbnail / Jump footer -->
                 <div class="p-6 pt-0">
-                    <div class="local-view" style="background-image: url('${map.image}'); background-position: ${area.bgPosition}; background-size: ${area.bgSize};" title="点击在上方大图中飞往此处">
+                    <div class="local-view cursor-pointer" style="background-image: url('${map.image}'); background-position: ${area.bgPosition}; background-size: ${area.bgSize};" title="点击在上方大图中飞往此处">
                         <div class="w-full h-full flex items-end p-2 bg-gradient-to-t from-black/60 to-transparent rounded">
                             <span class="text-white text-xs font-sans tracking-wide">📍 点击局部切片，平滑飞行至该区域</span>
                         </div>
@@ -260,22 +251,31 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // 4. Populate Section 3: Scientific Gems
+        if (map.scientificSection) {
+            if (map.scientificSection.badge && document.getElementById('scientific-badge'))
+                document.getElementById('scientific-badge').textContent = map.scientificSection.badge;
+            if (map.scientificSection.title && document.getElementById('scientific-title'))
+                document.getElementById('scientific-title').textContent = map.scientificSection.title;
+            if (map.scientificSection.desc && document.getElementById('scientific-desc'))
+                document.getElementById('scientific-desc').textContent = map.scientificSection.desc;
+        }
+
         const sciGrid = document.getElementById('scientific-grid');
         sciGrid.innerHTML = '';
-        map.scientificGems.forEach(gem => {
+        (map.scientificGems || []).forEach(gem => {
             const card = document.createElement('div');
             card.className = 'bg-white rounded-lg p-5 border border-sepia-300 shadow-sm flex flex-col justify-between hover:border-sepia-500 transition group';
             card.innerHTML = `
                 <div>
                     <div class="flex items-center justify-between mb-2">
                         <span class="text-xs text-sepia-600 font-sans">${gem.tag}</span>
-                        <span class="text-xs bg-sepia-100 text-sepia-800 px-1.5 py-0.5 rounded font-mono">1602测绘</span>
+                        <span class="text-xs bg-sepia-100 text-sepia-800 px-1.5 py-0.5 rounded font-mono">${gem.dateTag || map.year}</span>
                     </div>
                     <h5 class="text-base font-bold text-sepia-900 mb-1">${gem.name}</h5>
                     <p class="text-xs text-sepia-700 italic mb-2 font-medium">${gem.summary}</p>
                     <p class="text-xs text-stone-600 leading-relaxed mb-4">${gem.desc}</p>
                 </div>
-                <button class="w-full py-1.5 text-xs text-center border border-sepia-400 hover:bg-sepia-700 hover:text-white rounded transition text-sepia-800 font-medium">
+                <button class="w-full py-1.5 text-xs text-center border border-sepia-400 hover:bg-sepia-700 hover:text-white rounded transition text-sepia-800 font-medium cursor-pointer">
                     在地图中定位查看
                 </button>
             `;
@@ -285,10 +285,16 @@ document.addEventListener('DOMContentLoaded', () => {
             sciGrid.appendChild(card);
         });
 
-        // 5. Populate Section 4: Mythical Beasts
+        // 5. Populate Section 4: Special Features / Mythical Beasts
         const beastsGrid = document.getElementById('beasts-grid');
         beastsGrid.innerHTML = '';
-        map.mythicalBeasts.forEach(beast => {
+        if (map.specialFeaturesBadge && document.getElementById('beasts-badge'))
+            document.getElementById('beasts-badge').textContent = map.specialFeaturesBadge;
+        if (map.specialFeaturesTitle && document.getElementById('beasts-title'))
+            document.getElementById('beasts-title').textContent = map.specialFeaturesTitle;
+
+        const features = map.specialFeatures || map.mythicalBeasts || [];
+        features.forEach(beast => {
             const div = document.createElement('div');
             div.className = 'p-6 rounded-lg bg-sepia-50 border-l-4 border-sepia-600 space-y-2';
             div.innerHTML = `
@@ -299,9 +305,18 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // 6. Populate Section 5: Etymology Glossary
+        if (map.etymologySection) {
+            if (map.etymologySection.badge && document.getElementById('etymology-badge'))
+                document.getElementById('etymology-badge').textContent = map.etymologySection.badge;
+            if (map.etymologySection.title && document.getElementById('etymology-title'))
+                document.getElementById('etymology-title').textContent = map.etymologySection.title;
+            if (map.etymologySection.subtitle && document.getElementById('etymology-subtitle'))
+                document.getElementById('etymology-subtitle').textContent = map.etymologySection.subtitle;
+        }
+
         const etymContainer = document.getElementById('etymology-container');
         etymContainer.innerHTML = '';
-        map.etymologyGlossary.forEach(item => {
+        (map.etymologyGlossary || []).forEach(item => {
             const card = document.createElement('div');
             card.className = 'etym-card p-4 rounded-lg flex flex-col justify-between';
             card.innerHTML = `
