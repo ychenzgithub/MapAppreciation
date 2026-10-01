@@ -39,18 +39,32 @@
 <body class="bg-sepia-50 text-sepia-900 font-serif overflow-x-hidden antialiased selection:bg-sepia-200">
 
     <!-- Header -->
-    <header class="bg-gradient-to-b from-sepia-900 to-sepia-800 text-sepia-50 py-10 shadow-xl border-b-4 border-sepia-500">
+    <header class="bg-gradient-to-b from-sepia-900 to-sepia-800 text-sepia-50 py-10 shadow-xl border-b-4 border-sepia-500 relative">
+        <!-- Language Switcher in top right corner -->
+        <div class="absolute top-4 right-4 sm:top-6 sm:right-8 z-10 flex items-center">
+            <div class="inline-flex items-center rounded-full bg-sepia-950/70 p-1 border border-sepia-400/40 shadow-lg backdrop-blur-xs text-xs font-sans">
+                <button id="lang-btn-zh" class="px-3 py-1 rounded-full font-medium transition cursor-pointer bg-sepia-600 text-white shadow-xs" title="切换到中文">中文</button>
+                <button id="lang-btn-en" class="px-3 py-1 rounded-full font-medium transition cursor-pointer text-sepia-300 hover:text-white" title="Switch to English">English</button>
+            </div>
+        </div>
         <div class="container mx-auto px-4 text-center">
             <div class="inline-block border-y-2 border-sepia-400 py-1 px-6 mb-3">
-                <span class="text-xs uppercase tracking-widest text-sepia-300 font-sans">East-West Cartographic Heritage</span>
+                <span id="site-subtitle" class="text-xs uppercase tracking-widest text-sepia-300 font-sans">East-West Cartographic Heritage</span>
             </div>
-            <h1 class="text-4xl md:text-6xl font-bold mb-3 tracking-widest">古 地 图 赏 析</h1>
-            <p class="text-sepia-200 text-base md:text-xl font-light max-w-2xl mx-auto leading-relaxed">探索历史的印记 · 重温古代世界的样貌 · 考据东西文明的交汇</p>
+            <h1 id="site-title" class="text-4xl md:text-6xl font-bold mb-3 tracking-widest">古 地 图 赏 析</h1>
+            <p id="site-tagline" class="text-sepia-200 text-base md:text-xl font-light max-w-2xl mx-auto leading-relaxed">探索历史的印记 · 重温古代世界的样貌 · 考据东西文明的交汇</p>
         </div>
     </header>
 
     <!-- Main Content Container -->
     <main id="app-container" class="container mx-auto px-4 py-8 max-w-7xl">
+        <!-- Gallery Intro Header -->
+        <div id="gallery-header" class="text-center max-w-2xl mx-auto mb-10">
+            <span id="gallery-badge" class="seal-badge mb-2">传世舆图 · 宏篇巨帙</span>
+            <h2 id="gallery-title" class="text-3xl md:text-4xl font-bold text-sepia-900 mb-3">典藏古地图库</h2>
+            <p id="gallery-desc" class="text-sepia-700 leading-relaxed text-sm md:text-base">收录十六至十七世纪东西方交流时期的极具学术、艺术与科学价值的高清历史地图，依托金字塔瓦片技术提供毫发毕现的超高清微距观览体验。</p>
+        </div>
+
         <!-- Map List View -->
         <section id="map-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <!-- Dynamically populated by app.js -->
@@ -62,7 +76,7 @@
             <div class="flex items-center justify-between border-b border-sepia-200 pb-4">
                 <button id="back-btn" class="inline-flex items-center text-sepia-800 hover:text-sepia-600 font-bold transition text-lg group">
                     <svg class="w-5 h-5 mr-2 transform group-hover:-translate-x-1 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                    返回地图全录
+                    <span id="back-btn-text">返回地图全录</span>
                 </button>
                 <span id="detail-badge" class="seal-badge">深度解说版 · 1602刻本</span>
             </div>
@@ -72,8 +86,8 @@
                 <!-- Quick Navigation Pills Bar -->
                 <div class="bg-sepia-100 px-4 py-3 border-b border-sepia-200 flex items-center justify-between flex-wrap gap-2">
                     <div class="flex items-center space-x-2 text-sm text-sepia-800 font-sans font-medium">
-                        <span class="seal-badge mr-1">快速导览</span>
-                        <span class="text-xs text-sepia-600 hidden sm:inline">点击直飞探索区域：</span>
+                        <span id="quick-guide-badge" class="seal-badge mr-1">快速导览</span>
+                        <span id="quick-guide-tip" class="text-xs text-sepia-600 hidden sm:inline">点击直飞探索区域：</span>
                     </div>
                     <div id="quick-jump-pills" class="flex items-center gap-2 overflow-x-auto custom-scrollbar py-1 text-xs">
                         <!-- Populated by JS -->
@@ -95,7 +109,7 @@
                 </div>
 
                 <div class="bg-sepia-800 text-sepia-200 text-xs px-4 py-2.5 flex items-center justify-between flex-wrap gap-2">
-                    <span>💡 提示：支持鼠标滚轮平滑缩放、自由拖拽。按键盘 <b>F</b> 键可快速切换全屏沉浸模式。</span>
+                    <span id="viewer-hint-text">💡 提示：支持鼠标滚轮平滑缩放、自由拖拽。按键盘 <b>F</b> 键可快速切换全屏沉浸模式。</span>
                     <div class="flex items-center space-x-4">
                         <button id="reset-view-btn" class="underline hover:text-white transition cursor-pointer">重置全景视口</button>
                         <button id="footer-fullscreen-btn" class="underline hover:text-white transition font-medium cursor-pointer">⛶ 全屏显示</button>
@@ -108,7 +122,7 @@
                 <!-- Section 1: Overview & Historical Coordinates -->
                 <section class="bg-white rounded-xl p-6 md:p-10 shadow-lg border border-sepia-200">
                     <div class="text-center max-w-3xl mx-auto mb-8">
-                        <span class="seal-badge mb-2">地图概述与时代坐标</span>
+                        <span id="overview-badge" class="seal-badge mb-2">地图概述与时代坐标</span>
                         <h2 id="detail-title" class="text-3xl md:text-4xl font-bold mb-2 text-sepia-900"></h2>
                         <p id="detail-subtitle" class="text-sepia-600 text-base md:text-lg italic"></p>
                     </div>
@@ -122,10 +136,10 @@
                 <section>
                     <div class="flex items-center justify-between border-b-2 border-sepia-300 pb-3 mb-8">
                         <div>
-                            <span class="seal-badge mb-1">图文细读</span>
-                            <h3 class="text-2xl md:text-3xl font-bold text-sepia-900">核心区域深度赏析</h3>
+                            <span id="focal-badge" class="seal-badge mb-1">图文细读</span>
+                            <h3 id="focal-title" class="text-2xl md:text-3xl font-bold text-sepia-900">核心区域深度赏析</h3>
                         </div>
-                        <p class="text-sepia-600 text-sm hidden md:block">点击卡片右上角或按钮，可联动主地图飞跃至对应原图细部</p>
+                        <p id="focal-subtitle" class="text-sepia-600 text-sm hidden md:block">点击卡片右上角或按钮，可联动主地图飞跃至对应原图细部</p>
                     </div>
 
                     <div id="focal-areas-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -178,8 +192,8 @@
     <!-- Footer -->
     <footer class="bg-sepia-900 text-sepia-300 py-8 border-t-2 border-sepia-600 mt-16 text-center text-sm font-sans">
         <div class="container mx-auto px-4 space-y-2">
-            <p class="font-serif text-base text-sepia-100">古地图赏析 · 探索历史的每一片疆域</p>
-            <p>&copy; <span id="current-year"></span> 基于 Leaflet 瓦片金字塔深度图层构建 · 开源托管于 GitHub Pages</p>
+            <p id="footer-tagline" class="font-serif text-base text-sepia-100">古地图赏析 · 探索历史的每一片疆域</p>
+            <p id="footer-copy">&copy; <span id="current-year"></span> <span id="footer-copy-text">基于 Leaflet 瓦片金字塔深度图层构建 · 开源托管于 GitHub Pages</span></p>
         </div>
     </footer>
 
